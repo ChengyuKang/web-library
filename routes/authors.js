@@ -1,7 +1,6 @@
 const express = require('express')
 const router = express.Router()
 const Author = require('../models/author')
-const author = require('../models/author')
 
 // all authors
 // the '/' means the url, which will render to the authors/index.ejs  
