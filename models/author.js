@@ -14,6 +14,7 @@ const authorSchema = new mongoose.Schema({
 //             next(err)
 //         } else if(books.length > 0){
 //             next(new Error('This author has books still'))
+//             console.log('This author has books still')
 //         } else{
 //             next()
 //         }
