@@ -1,5 +1,5 @@
 <h2><%= author.name %></h2>
-<a href="/authors<%= author.id %>/edit">Edit</a>
+<a href="/authors/<%= author.id %>/edit">Edit</a>
 <form method="POST" action="/authors/<%= author.id %>?_method=DELETE">
     <button type="submit">Delete</button>
 </form>

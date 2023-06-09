@@ -1,0 +1,16 @@
+<h2><%= book.title %></h2>
+<a href="/books/<%= book.id %>/edit">Edit</a>
+<form method="POST" action="/books/<%= book.id %>?_method=DELETE">
+    <button type="submit">Delete</button>
+</form>
+<a href="/authors/<%= book.author.id %>">view author</a>
+
+
+<img height="150" width="100" src="<%= book.coverImagePath %>">
+
+
+
+<div>Author name: <%= book.author.name %></div>
+<div>PublishDate: <%= book.publishDate.toDateString() %></div>
+<div>Page count: <%= book.pageCount %></div>
+<div>Description: <%= book.description %></div>

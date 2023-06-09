@@ -57,6 +57,90 @@ router.get('/new',async (req,res)=>{
     
 })
 
+// show book
+router.get('/:id', async (req,res) => {
+    try {
+        const book = await Book.findById(req.params.id).populate('author').exec()
+        console.log(book.title)
+        console.log(book.author)
+        res.render('books/show',{
+            book : book
+        })
+    } catch {
+        res.redirect('/')
+    }
+})
+
+//delete book
+router.delete('/:id',async (req,res) =>{
+    let book
+    try {
+        book = await Book.findById(req.params.id)
+        book.deleteOne()
+        res.send('delete done')
+    } catch (error) {
+        if (book==null) {
+            res.redirect('/')
+        } else {
+            console.log(err)
+            res.redirect(`/books/${book.id}`)
+        }
+    }
+})
+
+//edit book
+router.get('/:id/edit', async (req,res) => {
+    let book
+    try {
+        book = await Book.findById(req.params.id)
+        const authors = await Author.find({})
+        res.render('books/edit',{
+            book: book,
+            authors: authors
+        })
+    } catch (error) {
+        console.log(error)
+        res.redirect('/')
+    }
+})
+
+// edit book put
+router.put('/:id', upload.single('cover'), async (req,res) =>{
+    let book
+    const fileName = req.file !=null ? req.file.filename: null
+    console.log(fileName)
+    try {
+        book = await Book.findById(req.params.id)
+        book.title = req.body.title,
+        book.description = req.body.description,
+        book.author = req.body.author,
+        book.pageCount = req.body.pageCount,
+        book.publishDate = new Date(req.body.publishDate)
+        console.log(book.coverImageName)
+        if ( fileName != null && fileName !== '') {
+            console.log('222')
+            if(book.coverImageName != null){
+                removeBookCover(book.coverImageName)
+            }
+            book.coverImageName = fileName
+        }
+        
+        await book.save()
+        res.redirect(`/books/${book.id}`)
+    } catch (error) {
+        console.error(error)
+        if(book.coverImageName != null){
+            removeBookCover(book.coverImageName)
+        }
+        const authors= await Author.find({})
+        res.render('books/new',{
+            book: book,
+            authors: authors,
+            errorMessage: 'Error updating Book'
+        })
+    }
+})
+
 // create book
 router.post('/',upload.single('cover'),async (req,res)=>{
     const fileName = req.file !=null ? req.file.filename: null
@@ -71,7 +155,7 @@ router.post('/',upload.single('cover'),async (req,res)=>{
     })
     try {
         const newBook = await book.save()
-        res.redirect('books')
+        res.redirect(`books/${newBook.id}`)
     } catch (error) {
         console.error(error)
         if(book.coverImageName != null){
