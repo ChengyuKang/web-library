@@ -22,9 +22,11 @@
             <img height="150" width="100" src="<%= book.coverImagePath %>">
         </a>
         <p><%= book.title %></p>
-        <a class="btn btn-primary" href="/books/<%= book.id %>/edit">edit</a>
-        <form method="POST" action="/books/<%= book.id %>?_method=DELETE">
-            <button class="btn btn-danger" type="submit">Delete</button>
-        </form>
+        <div class="btn-row">
+            <a class="btn btn-primary" href="/books/<%= book.id %>/edit">edit</a>
+            <form method="POST" action="/books/<%= book.id %>?_method=DELETE">
+                <button class="btn btn-danger" type="submit">Delete</button>
+            </form>
+        </div>
     <% }) %>
 </div>
