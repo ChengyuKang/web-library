@@ -1,4 +1,4 @@
-<h2>Search book</h2>
+<h2  class="page-header">Search book</h2>
 <form action="books" method="GET">
     <div>
         <label>Title</label>
@@ -18,7 +18,13 @@
 </form>
 <div>
     <% books.forEach(book => { %>
-        <img height="150" width="100" src="<%= book.coverImagePath %>">
+        <a href="/books/<%= book.id %>">
+            <img height="150" width="100" src="<%= book.coverImagePath %>">
+        </a>
         <p><%= book.title %></p>
+        <a class="btn btn-primary" href="/books/<%= book.id %>/edit">edit</a>
+        <form method="POST" action="/books/<%= book.id %>?_method=DELETE">
+            <button class="btn btn-danger" type="submit">Delete</button>
+        </form>
     <% }) %>
 </div>
